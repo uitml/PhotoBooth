@@ -183,7 +183,7 @@ class CountdownThread(QObject):
 class ImageGenerationThread(QObject):
     finished = Signal(object)
 
-    def __init__(self, style: object, input_image: QImage, parent: QObject = None) -> None:
+    def __init__(self, style: object, input_image: QImage, api: ImageGeneratorAPIWrapper, parent: QObject = None) -> None:
         """
         Initialize the ImageGenerationThread with style, input image, and optional parent.
         """
@@ -192,7 +192,7 @@ class ImageGenerationThread(QObject):
         super().__init__(parent)
         self.style = style
         self.input_image = input_image
-        self.api = ImageGeneratorAPIWrapper(style=style, qimg=input_image)
+        self.api = api
         self._running = True
         self._thread = None
         self._worker = None
