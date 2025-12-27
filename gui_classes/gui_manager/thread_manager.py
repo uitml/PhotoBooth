@@ -9,6 +9,7 @@ from comfy_classes.comfy_class_API import ImageGeneratorAPIWrapper
 from gui_classes.gui_object.overlay import OverlayCountdown, OverlayLoading
 from gui_classes.gui_object.toolbox import ImageUtils
 from hotspot_classes.hotspot_client import HotspotClient
+from constant import KEEP_GENERATED_IMAGE
 
 import logging
 logger = logging.getLogger(__name__)
@@ -360,8 +361,12 @@ class ImageGenerationThread(QObject):
                         if DEBUG_ImageGenerationThread:
                             logger.info(f"[DEBUG][ImageGenerationWorker] Successfully loaded generated image.")
                         self.finished.emit(qimg)
-                        
-                    self.api.delete_input_and_output_images()
+                    
+                    self.image_path = self.api.get_latest_image_path()
+                    if not KEEP_GENERATED_IMAGE:
+                        self.api.delete_input_and_output_images()
+                    else:
+                        self.api.move_output_image()
                 except Exception as e:
                     if DEBUG_ImageGenerationThread:
                         logger.info(f"[DEBUG][ImageGenerationWorker] Exception: {e}")
