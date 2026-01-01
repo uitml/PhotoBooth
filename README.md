@@ -163,6 +163,17 @@ sudo apt install libxcb-cursor0 #may be needed
 
 Comfy is assumed to be in the same folder as Photobooth. If this is not the case, be sure to set the correct path in `constant.py`.
 
+#### Automated Setup using Scripts
+
+To simplify the setup of ComfyUI's custom nodes and models, we have provided automation scripts for both Windows and Linux. These scripts will download and place all the required files for you.
+
+-   **For Windows:** Run the `setup_comfyui.bat` script by double-clicking it.
+-   **For Linux/macOS:** First, make the script executable by running `chmod +x setup_comfyui.sh`, then run it with `./setup_comfyui.sh`.
+
+If you encounter any issues with the scripts or prefer to set up your environment manually, please follow the detailed steps below.
+
+---
+
 1. **Install ComfyUI**
 	 - Follow instructions at: https://www.comfy.org/ or https://github.com/comfyanonymous/ComfyUI
 	 - On Windows ComfyUI installs by default in a folder `ComfyUI` in the `Documents` folder,
@@ -222,12 +233,7 @@ Comfy is assumed to be in the same folder as Photobooth. If this is not the case
 		 - In folder `ComfyUI/models/loras`:
 			 - `ip-adapter-faceid-plusv2_sd15_lora.safetensors`
 			 - `ip-adapter-faceid_sd15_lora.safetensors`
-	 - **VAE Models:** (optional, for better color reproduction)
-		 - Place in `ComfyUI/models/vae/`
-	 - **InsightFace Models:** (for face recognition)
-		 - Place in `ComfyUI/models/insightface/`
-	 - **ONNX Models:** (for onnxruntime)
-		 - Place in appropriate subfolders under `ComfyUI/models/`
+
 
 
 You may need the following additional AI/FaceID dependencies, if you have the error "No module named 'insightface'" when you try to run one of the Photobooth workflows (see below 'Test ComfyUI'),
@@ -253,12 +259,11 @@ Start ComfyUI and verify that models in the `workflows` directory of PhotoBooth 
 
 ### 6. Hotspot & Captive Portal Setup (Raspberry Pi)
 
-Follow the steps in the PDF to set up the hotspot and captive portal. Place configuration files in `hotspot_classes/in_py/configuration_files/` as described.
+This is optional and only necessary if you want to use the Rasberry Pi to share images using Wifi. Follow the steps in the PDF to set up the hotspot and captive portal. Place configuration files in `hotspot_classes/in_py/configuration_files/` as described.
 
 ### 7. Run PhotoBooth
 
-Photobooth assumes that ComfyUI is running and accessible at the local url `HTTP_BASE_URL = "http://127.0.0.1:8188"`.
-If it is serving another url, you can modify the `constant.py` to point to the correct one. More generally, the communication between the PhotoBooth app and ComfyUI is set in the `constant.py` file (see config details). Check it if PhotoBooth does not work after ComfyUI is set.
+Open a Terminal or use the one opened previously, in the PhotoBooth folder, run:
 
 #### Linux/macOS
 ```bash
@@ -266,6 +271,11 @@ python main.py
 ```
 
 #### Windows
+```bash
+venv\Scripts\activate.bat
+python main.py
+```
+
 You can use a `.bat` script to automate launching PhotoBooth and ComfyUI (change the paths to your correct comfy and photobooth paths):
 
 ```bat
@@ -285,6 +295,13 @@ pause
 
 **Note:**
 Adapt this `.bat` file to your own configuration, including the paths to `ComfyUI.exe` and the PhotoBooth folder.
+
+#### Communication between PhotoBooth and ComfyUI
+
+Photobooth assumes that ComfyUI is running and accessible at the local url `HTTP_BASE_URL = "http://127.0.0.1:8188"`.
+If it is serving another url, you can modify the `constant.py` to point to the correct one. More generally, the communication between the PhotoBooth app and ComfyUI is set in the `constant.py` file (see config details). Check it if PhotoBooth does not work after ComfyUI is set. Restart PhotoBooth after any modification of the configuration file.
+
+
 
 ### 8. Quit Photobooth
 
