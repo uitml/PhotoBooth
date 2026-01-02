@@ -266,6 +266,7 @@ This is optional and only necessary if you want to use the Rasberry Pi to share 
 Open a Terminal or use the one opened previously, in the PhotoBooth folder, run:
 
 #### Linux/macOS
+be sure to have your virtual environment activated (`source venv/bin/activate`) and run:
 ```bash
 python main.py
 ```
@@ -280,9 +281,10 @@ You can use a `.bat` script to automate launching PhotoBooth and ComfyUI (change
 
 ```bat
 @echo off
-del /f /q "C:\AI Demos\PhotoBooth\app.log"
-start "" "C:\Users\USERNAME\AppData\Local\Programs\@comfyorgcomfyui-electron\ComfyUI.exe"
-cd /d "C:\AI Demos\PhotoBooth"
+del /f /q "C:\Users\USERNAME\Documents\PhotoBooth\app.log"
+start "" "C:\Users\USERNAME\AppData\Local\Programs\ComfyUI\ComfyUI.exe"
+cd /d "C:\Users\USERNAME\Documents\PhotoBooth"
+call venv\Scripts\activate.bat
 python .\main.py
 pause
 ```
